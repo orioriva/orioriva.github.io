@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.z-0{
+	z-index: 0;
+}
+
+.hide{
+	display: none;
+}
+
+.scroll-x{
+	overflow-x: scroll;
+}
+
+.scroll-y{
+	overflow-y: scroll;
+}
+
+.reverse-y{
+	transform: scale(1, -1);
+}
