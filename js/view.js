@@ -14,6 +14,11 @@ $('#selectCanvasSize').change(function(){
 	}
 });
 
+/** 電卓表示非表示切り替え */
+$('#calc-keys-toggle').click(function(){
+	$('#calc-keys').toggle();
+});
+
 /** 操作ガイドボタンが押された時 */
 $("#guide-btn").click(function() {
     $('.popup-guide').addClass('show').fadeIn();

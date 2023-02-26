@@ -117,12 +117,15 @@ canvas.addEventListener('mouseup',()=> {
 
 // 何らかのキーを押された時の処理
 window.addEventListener('keydown', e => {
-	switch(e.key){
+	keyAction(e.key);
+});
+function keyAction(key){
+	switch(key){
 		case '+':
 		case '-':
 		case '*':
 		case '/':
-			createSign(e.key);
+			createSign(key);
 			break;
 		case 'Delete':
 			deleteObj();
@@ -142,6 +145,7 @@ window.addEventListener('keydown', e => {
 			}
 			break;
 		case '.':
+			if(selectedObj == null) break;
 		case '0':
 		case '1':
 		case '2':
@@ -153,25 +157,20 @@ window.addEventListener('keydown', e => {
 		case '8':
 		case '9':
 			if(selectedObj == null){
-				let obj = addNumber(_mouseX, _mouseY, "NEW", parseInt(e.key));
+				let obj = addNumber(_mouseX, _mouseY, "NEW", parseInt(key));
 				selectedChange(obj);
 			}else if(selectedObj.type == "number"){
-				selectedObj.addNumberOne(e.key);
+				selectedObj.addNumberOne(key);
 			}else if(selectedObj.type == "sign"){
-				let obj = addNumber(selectedObj.getRightPos() + 100, selectedObj.y, "NEW", parseInt(e.key));
+				let obj = addNumber(selectedObj.getRightPos() + 100, selectedObj.y, "NEW", parseInt(key));
 				selectedObj.setNextObj(obj);
 				selectedChange(obj);
 			}
 			break;
-		/*
-		case 's':
-			objectsToString();
-			break;
-		*/
 		default:
 			break;
 	}
-});
+}
 
 /** 全オブジェクト削除 */
 function allDelete(){

@@ -20,3 +20,14 @@ html, body{
 	height: 100vh;
 	border: 5px skyblue dashed;
 }
+
+/*
+#calc-keys{
+	position: fixed;
+	bottom: 0;
+}
+*/
+#calc-keys button{
+	font-size: x-small;
+	width: 30px;
+}
