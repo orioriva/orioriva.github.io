@@ -23,6 +23,7 @@ class NumberClass extends ObjectClass{
 	init(){
 		this.fillColor = this.calcSource != null ? this.calcSource.fillColor : "#32cd32" ;
 		this.setPositions();
+		limitPos(this);
 	}
 
 	/** 各表示オブジェクト配置 */
@@ -105,9 +106,9 @@ class NumberClass extends ObjectClass{
 
 	/** 計算先に符号を追加 */
 	addSign(type){
-		let obj = new SignClass( limitPosX( this.getRightPos() + 50 ), this.y, type);
+		let obj = new SignClass( this.getRightPos() + 50, this.y, type);
+		limitPos(obj);
 		insertObj(obj,this,null);
-		objects.push(obj);
 		selectedChange(obj);
 		return obj;
 	}

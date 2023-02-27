@@ -16,6 +16,8 @@ var _mouseY = 0.0;
 var objects = new Array();
 var selectedObj = null;
 
+var tapCount = 0;
+
 /** マウス座標の更新 */
 function updateMousePos(e){
 	const rect = canvas.getBoundingClientRect();
@@ -23,8 +25,39 @@ function updateMousePos(e){
 	_mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
 }
 
-// マウスイベント
-canvas.addEventListener('mousedown', e => {
+// pc
+if(typeof window.ontouchstart === "undefined"){
+	canvas.addEventListener('mousedown', e => { onMousedown(e); });
+	canvas.addEventListener('dblclick', e => { onDoubleClick(e); });
+	canvas.addEventListener('mousemove', e => { onMouseMove(e); });
+	canvas.addEventListener('mouseup',()=> { onMouseUp(); });
+}
+// smartphone
+else{
+	$('#calc-keys').show();
+	$('#selectCanvasSize').val('2');
+	changeCanvasSize('2');
+	canvas.addEventListener('touchstart', e => {
+		// シングルタップ
+		if( !tapCount ) {
+			tapCount++;
+			setTimeout( function() { tapCount = 0; }, 350);
+			onMousedown(e.touches[0]);
+		// ダブルタップ
+		} else {
+			tapCount = 0;
+			onDoubleClick(e.touches[0]);
+		}
+	});
+	canvas.addEventListener('touchmove', e => {
+		onMouseMove(e.touches[0]);
+		if(onMove) e.preventDefault();	// スクロール防止
+	});
+	canvas.addEventListener('touchend',()=> { onMouseUp(); });
+}
+
+/** クリックされた時の処理 */
+function onMousedown(e){
 	updateMousePos(e);
 
 	// どのオブジェクトがタッチされたか探す（逆順）
@@ -42,10 +75,9 @@ canvas.addEventListener('mousedown', e => {
 
 	if(!dragOn)
 		selectedObj = null;
-});
-
-/** マウスがダブルクリックされた時の処理 */
-canvas.addEventListener('dblclick', e => {
+}
+/** ダブルクリックされた時の処理 */
+function onDoubleClick(e){
 	if(selectedObj == null || selectedObj.type != "number")
 		return;
 
@@ -59,10 +91,10 @@ canvas.addEventListener('dblclick', e => {
 			selectedObj.inputNumber();
 			break;
 	}
-});
+}
 
 /** マウスが動いた時の処理(高頻度) */
-canvas.addEventListener('mousemove', e => {
+function onMouseMove(e){
 	updateMousePos(e);
 
 	if(selectedObj == null || !dragOn){
@@ -75,10 +107,14 @@ canvas.addEventListener('mousemove', e => {
 	selectedObj.y = _mouseY - dragPointY;
 
 	onMove = true;
-});
+}
 
 /** マウスが動いた時の処理(フレーム毎) */
 function mouseMove(){
+	if(selectedObj == null){
+		return;
+	}
+	limitPos(selectedObj);
 	// ポインタを動かしているなら
 	if(selectedObj.type == "pointer"){
 		for (let i = objects.length - 1; i >= 0 ; i--){
@@ -95,7 +131,7 @@ function mouseMove(){
 }
 
 /** マウスボタンを離した時の処理 */
-canvas.addEventListener('mouseup',()=> {
+function onMouseUp(){
 	dragOn = false;
 
 	if(selectedObj == null){
@@ -113,7 +149,7 @@ canvas.addEventListener('mouseup',()=> {
 			}
 		}
 	}
-});
+}
 
 // 何らかのキーを押された時の処理
 window.addEventListener('keydown', e => {
@@ -242,7 +278,14 @@ function deleteArrayItem(array, item){
 	array.splice(index,1);
 }
 
-/** 描画領域を超えているなら描画領域内の座標(x)を返す */
-function limitPosX(pos){
-	return (pos > canvas.width-5) ? canvas.width-5 : pos;
+/** 描画領域を超えているなら描画領域内の座標に戻す */
+function limitPos(obj){
+	let dist = obj.getRightPos() - canvas.width;
+	if(dist > 0){ obj.x -= dist; }
+	dist = -obj.getLeftPos();
+	if(dist > 0){ obj.x += dist; }
+	dist = obj.getBottomPos() - canvas.height;
+	if(dist > 0){ obj.y -= dist; }
+	dist = -obj.getTopPos();
+	if(dist > 0){ obj.y += dist; }
 }

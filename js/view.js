@@ -7,21 +7,19 @@ window.onbeforeunload = function(event){
 
 /** キャンバスサイズが変更されたら */
 $('#selectCanvasSize').change(function(){
-	if($(this).val() == "1"){
+	changeCanvasSize($(this).val());
+});
+function changeCanvasSize(value){
+	if(value == "1"){
 		$('#canvas-wrapper').css({'width': '100%', 'height': '100vh'});
-	}else if($(this).val() == "2"){
+	}else if(value == "2"){
 		$('#canvas-wrapper').css({'width': '1280px', 'height': '720px'});
 	}
-});
-
-/** 電卓表示非表示切り替え */
-$('#calc-keys-toggle').click(function(){
-	$('#calc-keys').toggle();
-});
+}
 
 /** 操作ガイドボタンが押された時 */
 $("#guide-btn").click(function() {
-    $('.popup-guide').addClass('show').fadeIn();
+    $('.popup-guide').addClass('popup-show').fadeIn();
 });
 
 /** 操作ガイドを閉じる時 */
@@ -43,7 +41,7 @@ $('#delete-btn').click(function() {
 
 /** ファイルを開くボタンが押された時 */
 $('#open-btn').click(function() {
-    $('.popup-file').addClass('show').fadeIn();
+    $('.popup-file').addClass('popup-show').fadeIn();
     ajaxGetFormulaList();
 });
 

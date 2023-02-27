@@ -18,7 +18,7 @@
 	overflow-y: scroll;
 }
 
-.show {
+.popup-show {
     display: flex;
     justify-content: center;
     align-items: center;

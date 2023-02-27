@@ -18,7 +18,6 @@ function init() {
 
 function addNumber(x,y,text,number){
 	let obj = new NumberClass(x,y,text,number);
-	objects.push(obj);
 	return obj;
 }
 

@@ -54,6 +54,7 @@ class ObjectClass {
 		this.prevObj = new Array();
 		this.bounds = new Bounds();
 		this.fillColor = "#ffffff"
+		objects.push(this);
 	}
 
 	/** 削除処理 */
