@@ -154,8 +154,11 @@ class NumberClass extends ObjectClass{
 			return;
 		}
 
+		/*
+		// 小数点以降の桁数を調べる
 		let numbers = String(this.viewNumber).split('.');
 		const decimal = numbers[1] ? numbers[1].length : 0;
+		*/
 		/*
 		const digit = numbers[0].length + decimal;
 		if(digit >= 17){
@@ -164,7 +167,7 @@ class NumberClass extends ObjectClass{
 		}*/
 
 		// 既に小数点が入力されているなら
-		if(number === '.' && decimal != 0){
+		if(number === '.' && this.viewNumber.indexOf('.') !== -1){
 			return;
 		}
 

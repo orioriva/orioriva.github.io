@@ -91,19 +91,16 @@
 		<button class="nav-item mr-3 mb-2 btn btn-sm btn-danger" id="delete-btn"><i class="fas fa-trash-alt"></i> 全消去</button>
 		<!-- 開く -->
 		
-		<small class="nav-item">※ ログインすると保存出来るようになります</small>
+		<small class="nav-item mr-3 mb-2">※ ログインすると保存出来るようになります</small>
+
+        <!-- 電卓表示 -->
+        <button id="calc-keys-toggle" class="nav-item mr-3 mb-2 btn btn-sm btn-primary"><i class="fas fa-calculator"></i>&ensp;ボタン入力表示/非表示</button>
 	</div>
 </nav>
 
-<!-- キャンバス -->
-<div class="scroll-x reverse-y">
-	<div class="reverse-y" id="canvas-wrapper">
-	    <canvas class="bg-light" id="canvas" width="1280px" height="720px">このブラウザは HTML5 Canvas に対応していません。</canvas>
-	</div>
-</div>
 
-<!-- 電卓表示 -->
-<div class="fixed-bottom">
+<div class="sticky-top rounded hide" id="calc-keys">
+    <!--
     <table class="bg-dark rounded hide" id="calc-keys">
         <tr>
             <td><button class="btn btn-sm btn-secondary" onclick="keyAction('Delete')">Del</button></td>
@@ -136,7 +133,35 @@
             <td><button class="btn btn-sm btn-info" onclick="keyAction('+')"><i class="fas fa-plus"></i></button></td>
         </tr>
     </table>
-    <button id="calc-keys-toggle" class="btn btn-sm btn-primary"><i class="fas fa-calculator"></i></button>
+    -->
+
+    <div class="d-flex flex-nowrap btn-group">
+        <button class="btn btn-sm btn-info" onclick="keyAction('+')"><i class="fas fa-plus"></i></button>
+        <button class="btn btn-sm btn-info" onclick="keyAction('-')"><i class="fas fa-minus"></i></button>
+        <button class="btn btn-sm btn-info" onclick="keyAction('*')"><i class="fas fa-times"></i></button>
+        <button class="btn btn-sm btn-info" onclick="keyAction('/')"><i class="fas fa-divide"></i></button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('.')">.</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('0')">0</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('1')">1</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('2')">2</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('3')">3</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('4')">4</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('5')">5</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('6')">6</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('7')">7</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('8')">8</button>
+        <button class="btn btn-sm btn-secondary" onclick="keyAction('9')">9</button>
+        <button class="btn btn-sm btn-dark" onclick="keyAction('Backspace')"><i class="fas fa-backspace"></i></button>
+        <button class="btn btn-sm btn-dark" onclick="keyAction('c')">C</button>
+        <button class="btn btn-sm btn-dark" onclick="keyAction('Delete')">Del</button>
+    </div>
+</div>
+
+<!-- キャンバス -->
+<div class="scroll-x reverse-y">
+	<div class="reverse-y" id="canvas-wrapper">
+	    <canvas class="bg-light" id="canvas" width="1280px" height="720px">このブラウザは HTML5 Canvas に対応していません。</canvas>
+	</div>
 </div>
 
 <!-- ファイル読込 -->

@@ -145,7 +145,7 @@ function keyAction(key){
 			}
 			break;
 		case '.':
-			if(selectedObj == null) break;
+			if(selectedObj == null || selectedObj.type == "sign") break;
 		case '0':
 		case '1':
 		case '2':
