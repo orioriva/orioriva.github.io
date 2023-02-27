@@ -17,6 +17,16 @@ function changeCanvasSize(value){
 	}
 }
 
+/** スマホ用入力ボタン表示/非表示 */
+$('#calc-keys-show').click(function(){
+	$('#calc-keys').animate({height: 'show', opacity:'show'},'slow');
+	$(this).animate({height: 'hide', opacity:'hide'},'slow');
+});
+$('#calc-keys-hide').click(function(){
+	$('#calc-keys').animate({height: 'hide', opacity:'hide'},'slow');
+	$('#calc-keys-show').animate({height: 'show', opacity:'show'},'slow');
+});
+
 /** 操作ガイドボタンが押された時 */
 $("#guide-btn").click(function() {
     $('.popup-guide').addClass('popup-show').fadeIn();

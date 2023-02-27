@@ -96,34 +96,47 @@
 </nav>
 
 
-<div class="sticky-top rounded hide" id="calc-keys">
-    <div class="d-flex flex-wrap btn-group">
-        <button class="btn btn-sm btn-info" onclick="keyAction('+')"><i class="fas fa-plus"></i></button>
-        <button class="btn btn-sm btn-info" onclick="keyAction('-')"><i class="fas fa-minus"></i></button>
-        <button class="btn btn-sm btn-info" onclick="keyAction('*')"><i class="fas fa-times"></i></button>
-        <button class="btn btn-sm btn-info" onclick="keyAction('/')"><i class="fas fa-divide"></i></button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('.')">.</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('0')">0</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('1')">1</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('2')">2</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('3')">3</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('4')">4</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('5')">5</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('6')">6</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('7')">7</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('8')">8</button>
-        <button class="btn btn-sm btn-secondary" onclick="keyAction('9')">9</button>
-        <button class="btn btn-sm btn-dark" onclick="keyAction('Backspace')"><i class="fas fa-backspace"></i></button>
-        <button class="btn btn-sm btn-dark" onclick="keyAction('c')">C</button>
-        <button class="btn btn-sm btn-dark" onclick="keyAction('Delete')">Del</button>
-    </div>
-</div>
 
 <!-- キャンバス -->
 <div class="scroll-x reverse-y">
 	<div class="reverse-y" id="canvas-wrapper">
 	    <canvas class="bg-light" id="canvas" width="1280px" height="720px">このブラウザは HTML5 Canvas に対応していません。</canvas>
 	</div>
+</div>
+
+<!-- スマホ用入力ボタン -->
+<button class="fixed-bottom btn btn-sm btn-primary hide" id="calc-keys-show"><i class="fas fa-calculator"></i></button>
+<div class="fixed-bottom rounded hide" id="calc-keys">
+    <div class="">
+        <div class="d-flex flex-nowrap btn-group">
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('7')">7</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('8')">8</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('9')">9</button>
+            <button class="btn btn-sm btn-info" onclick="keyAction('+')"><i class="fas fa-plus"></i></button>
+            <button class="btn btn-sm btn-primary" id="calc-keys-hide"><i class="fas fa-calculator"></i></button>
+        </div>
+        <div class="d-flex flex-nowrap btn-group">
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('4')">4</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('5')">5</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('6')">6</button>
+            <button class="btn btn-sm btn-info" onclick="keyAction('-')"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-dark" onclick="keyAction('Backspace')"><i class="fas fa-backspace"></i></button>
+        </div>
+        <div class="d-flex flex-nowrap btn-group">
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('1')">1</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('2')">2</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('3')">3</button>
+            <button class="btn btn-sm btn-info" onclick="keyAction('*')"><i class="fas fa-times"></i></button>
+            <button class="btn btn-sm btn-dark" onclick="keyAction('c')">C</button>
+        </div>
+        <div class="d-flex flex-nowrap btn-group">
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('0')">0</button>
+            <button class="btn btn-sm btn-secondary" onclick="keyAction('.')">.</button>
+            <button class="btn btn-light"></button>
+            <button class="btn btn-sm btn-info" onclick="keyAction('/')"><i class="fas fa-divide"></i></button>
+            <button class="btn btn-sm btn-dark" onclick="keyAction('Delete')">Del</button>
+        </div>
+    </div>
 </div>
 
 <!-- ファイル読込 -->
