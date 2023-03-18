@@ -1,3 +1,6 @@
+/**
+ * 円描画クラス
+ */
 class DrawCircleClass extends DrawObj{
     constructor(parent, x, y, radius, fillColor) {
 		super(parent,x,y,fillColor);
@@ -25,7 +28,7 @@ class DrawCircleClass extends DrawObj{
         ctx.globalAlpha = this.parent.alpha * this.alpha;
         ctx.fillStyle = this.fillColor;
         ctx.fill();
-        
+
         ctx.strokeStyle = this.fillColor;
         ctx.lineWidth = 3;
         ctx.stroke() ;

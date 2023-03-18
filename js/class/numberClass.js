@@ -21,7 +21,7 @@ class NumberClass extends ObjectClass{
 
 	/** 初期化 */
 	init(){
-		this.fillColor = this.calcSource != null ? this.calcSource.fillColor : "#32cd32" ;
+		this.fillColor = (this.calcSource != null) ? this.calcSource.fillColor : "#32cd32" ;
 		this.setPositions();
 	}
 
