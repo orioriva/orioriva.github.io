@@ -65,7 +65,7 @@ function onMousedown(e){
 	for (let i = objects.length - 1; i >= 0 ; i--){
 		objects[i].alpha = 1.0;
 		// タッチ判定は数値オブジェクト以外を優先
-		if(touchObj != null && touchObj.type != "number" && objects[i].type == "number"){
+		if(touchObj != null && touchObj.type != "number"){
 			continue;
 		}
 		if(objects[i].hitTest(_mouseX,_mouseY)){
