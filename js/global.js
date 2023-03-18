@@ -61,20 +61,27 @@ function onMousedown(e){
 	updateMousePos(e);
 
 	// どのオブジェクトがタッチされたか探す（逆順）
+	let touchObj = null;
 	for (let i = objects.length - 1; i >= 0 ; i--){
-		if(objects[i].hitTest(_mouseX,_mouseY)){
-			selectedChange(objects[i]);
-			// ドラッグを開始した座標を覚えておく
-			dragPointX = _mouseX - selectedObj.x;
-			dragPointY = _mouseY - selectedObj.y;
-			dragOn = true;
+		objects[i].alpha = 1.0;
+		// タッチ判定は数値オブジェクト以外を優先
+		if(touchObj != null && touchObj.type != "number" && objects[i].type == "number"){
 			continue;
 		}
-		objects[i].alpha = 1.0;
+		if(objects[i].hitTest(_mouseX,_mouseY)){
+			touchObj = objects[i];
+		}
 	}
 
-	if(!dragOn)
+	if(touchObj == null){
 		selectedObj = null;
+	}else{
+		dragOn = true;
+		selectedChange(touchObj);
+		// ドラッグを開始した座標を覚えておく
+		dragPointX = _mouseX - selectedObj.x;
+		dragPointY = _mouseY - selectedObj.y;
+	}
 }
 /** ダブルクリックされた時の処理 */
 function onDoubleClick(e){
