@@ -139,6 +139,10 @@ class NumberClass extends ObjectClass{
 
 	/** 数字を入力 */
 	inputNumber(){
+		if(this.calcSource != null){
+			alert("計算結果を直接変更する事は出来ません！");
+			return;
+		}
 		let text = prompt("数値を変更", this.viewNumber);
 		if(text == null) return;
 		if(BigNumber(text).isNaN()){

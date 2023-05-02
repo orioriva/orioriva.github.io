@@ -1,5 +1,8 @@
 'use strict'
 
+/**
+ * 描画オブジェクト共通クラス
+ */
 class DrawObj{
 	constructor(parent,x,y,fillColor){
 		this.parent = parent;
@@ -11,8 +14,7 @@ class DrawObj{
 		this.alpha = 1.0;
 	}
 
-	update(){}
-	draw(){}
+	draw(){ alert('init():オーバーライド前が呼び出されました！'); }
 }
 
 // 3桁カンマ区切りとする（小数点も考慮）.

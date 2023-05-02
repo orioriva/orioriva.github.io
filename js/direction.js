@@ -26,6 +26,7 @@ function aline(x1, y1, x2, y2, r, len){
 	ctx.stroke();
 }
 
+/** 方向クラス */
 class Direction{
 	constructor(str,dirX,dirY){
 		this.str = str;
@@ -34,6 +35,7 @@ class Direction{
 	}
 }
 
+/** ２オブジェクト間の一番近い方向を取得 */
 function getDirection(baseObj,toObj){
 	let directions = new Array();
 	directions.push(new Direction("R", toObj.getLeftPos() - baseObj.getRightPos(), toObj.y - baseObj.y));
@@ -49,46 +51,50 @@ function getDirection(baseObj,toObj){
 	return result.str;
 }
 
-function drawLineDirection(dir,baseObj,toObj,space){
+/** 方向から線の始点と終点を取得 */
+function getStrokePath(dir, baseObj, toObj, space){
+	// 決まった方向から線を引く位置を決定
+	let baseX,baseY,toX,toY;
 	switch(dir){
 		case "R":
-			ctx.moveTo( toObj.getLeftPos(), toObj.y + space);
-			ctx.lineTo( baseObj.getRightPos(), baseObj.y + space);
-			break;
+			baseX = baseObj.getRightPos();
+			toX = toObj.getLeftPos();
 		case "L":
-			ctx.moveTo( toObj.getRightPos(), toObj.y + space);
-			ctx.lineTo( baseObj.getLeftPos(), baseObj.y + space);
+			if(!baseX) baseX = baseObj.getLeftPos();
+			if(!toX) toX = toObj.getRightPos();
+			baseY = baseObj.y + space;
+			toY = toObj.y + space;
 			break;
 		case "T":
-			ctx.moveTo( toObj.x + space, toObj.getBottomPos());
-			ctx.lineTo( baseObj.x + space, baseObj.getTopPos());
-			break;
+			baseY = baseObj.getTopPos();
+			toY = toObj.getBottomPos();
 		case "B":
-			ctx.moveTo( toObj.x + space, toObj.getTopPos());
-			ctx.lineTo( baseObj.x + space, baseObj.getBottomPos());
+			if(!baseY) baseY = baseObj.getBottomPos();
+			if(!toY) toY = toObj.getTopPos();
+			baseX = baseObj.x + space;
+			toX = toObj.x + space;
 			break;
 		default:
 			alert("不明な方向が指定されました");
-			break;
+			return;
 	}
+
+	return {
+		baseX: baseX,
+		baseY: baseY,
+		toX: toX,
+		toY: toY
+	};
 }
 
-function drawALineDirection(dir,baseObj,toObj){
-	switch(dir){
-		case "R":
-			aline(baseObj.getRightPos(), baseObj.y, toObj.getLeftPos(), toObj.y, 30, 10);
-			break;
-		case "L":
-			aline(baseObj.getLeftPos(), baseObj.y, toObj.getRightPos(), toObj.y, 30, 10);
-			break;
-		case "T":
-			aline(baseObj.x, baseObj.getTopPos(), toObj.x, toObj.getBottomPos(), 30, 10);
-			break;
-		case "B":
-			aline(baseObj.x, baseObj.getBottomPos(), toObj.x, toObj.getTopPos(), 30, 10);
-			break;
-		default:
-			alert("不明な方向が指定されました");
-			break;
-	}
+/** グラデーション用意 */
+function getGradient(path,color){
+	let gradient = ctx.createLinearGradient(path.baseX, path.baseY, path.toX, path.toY);
+	let pos = Date.now() % 2000 / 2000;
+	gradient.addColorStop(0, color);
+	gradient.addColorStop(Math.max(0, pos - 0.05), color);
+	gradient.addColorStop(pos, 'white');
+	gradient.addColorStop(Math.min(1, pos + 0.05), color);
+	gradient.addColorStop(1, color);
+	return gradient;
 }

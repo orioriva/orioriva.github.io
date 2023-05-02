@@ -132,26 +132,15 @@ class SignClass extends ObjectClass{
 			return;
 		}
 
+		ctx.globalAlpha = this.alpha;
+
 		// 計算元へ線を引く
 		this.drawLineForPrevObj();
 
-		// 計算先を判断
-		let lineToObj;
-		if(this.nextObj.length > 0){	// 計算先オブジェクトがあれば
-			lineToObj = this.nextObj[0];
-			if(this.nextPointer != null){
-				this.nextPointer.isDelete();
-				this.nextPointer = null;
-			}
-		}else{							// 計算先オブジェクトが無ければ
-			this.createPointer();
-
-			lineToObj = this.nextPointer;
-		}
 		// 計算先へ矢印を引く
-		let dir = getDirection(this,lineToObj);
-		drawALineDirection(dir, this, lineToObj);
+		this.drawLineForDestination();
 
+		// 符号部分描画
 		this.signBG.draw();
 		this.signText.draw();
 
@@ -173,19 +162,46 @@ class SignClass extends ObjectClass{
 		);
 	}
 
+	/** 矢印を引くべき先を取得 */
+	getDestination(){
+		// 計算先を判断
+		if(this.nextObj.length > 0){	// 計算先オブジェクトがあれば
+			if(this.nextPointer != null){
+				this.nextPointer.isDelete();
+				this.nextPointer = null;
+			}
+			return this.nextObj[0];
+		}else{							// 計算先オブジェクトが無ければ
+			this.createPointer();
+			return this.nextPointer;
+		}
+	}
+
 	/** 計算元へ線を引く */
 	drawLineForPrevObj(){
 		ctx.beginPath();
 
 		let dir = getDirection(this.prevObj[0],this);
-		drawLineDirection(dir,this.prevObj[0],this,0);
-
-		ctx.globalAlpha = this.alpha;
-		ctx.strokeStyle = this.fillColor;
+		let path = getStrokePath(dir, this.prevObj[0], this, 0);
+		ctx.strokeStyle = vmConfig.strokeAnim == "on" ? getGradient(path, this.fillColor) : this.fillColor;
+		ctx.moveTo( path.toX, path.toY);
+		ctx.lineTo( path.baseX, path.baseY);
 		ctx.lineWidth = 3;
 		ctx.stroke();
 
 		ctx.closePath();
+	}
+
+	/** 計算先へ矢印を引く */
+	drawLineForDestination(){
+		// 計算先を判断
+		let lineToObj = this.getDestination();
+
+		// 計算先へ矢印を引く
+		let dir = getDirection(this,lineToObj);
+		let path = getStrokePath(dir, this, lineToObj, 0);
+		ctx.strokeStyle = vmConfig.strokeAnim == "on" ? getGradient(path, this.fillColor) : this.fillColor;
+		aline(path.baseX, path.baseY, path.toX, path.toY, 30, 10);
 	}
 
 	/** 計算結果へ線を引く */
@@ -203,14 +219,17 @@ class SignClass extends ObjectClass{
 		ctx.beginPath();
 
 		let dir = getDirection(this.nextObj[0],this.resultObj);
-		drawLineDirection(dir,this.nextObj[0],this.resultObj,-space);
-		drawLineDirection(dir,this.nextObj[0],this.resultObj,space);
-
-		ctx.globalAlpha = this.alpha;
-		ctx.strokeStyle = this.fillColor;
+		let paths = [
+			getStrokePath(dir, this.nextObj[0], this.resultObj, -space),
+			getStrokePath(dir, this.nextObj[0], this.resultObj, space)
+		];
+		paths.forEach((value)=>{
+			ctx.strokeStyle = vmConfig.strokeAnim == "on" ? getGradient(value, this.fillColor) : this.fillColor;
+			ctx.moveTo( value.toX, value.toY);
+			ctx.lineTo( value.baseX, value.baseY);
+		});
 		ctx.lineWidth = 3;
 		ctx.stroke();
-
 		ctx.closePath();
 
 		// 計算元と計算先の数値が前と違っていれば再計算
@@ -237,7 +256,7 @@ class SignClass extends ObjectClass{
 			this.resultObj = new NumberClass(
 				0,
 				this.nextObj[0].y,
-				this.prevObj[0].text + " " + this.text + " " + this.nextObj[0].text,
+				vmConfig.resultTag == "default" ? this.prevObj[0].text + " " + this.text + " " + this.nextObj[0].text : vmConfig.resultTagName,
 				this.calculate(),
 				this
 			);

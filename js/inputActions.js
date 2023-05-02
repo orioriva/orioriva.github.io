@@ -24,7 +24,8 @@ if(typeof window.ontouchstart === "undefined"){
 else{
 	$('#calc-keys').show();
 	$('#selectCanvasSize').val('2');
-	changeCanvasSize('2');
+	vmConfig.canvasSize = '2';
+	vmConfig.changeCanvasSize();
 	canvas.addEventListener('touchstart', e => {
 		// シングルタップ
 		if( !tapCount ) {

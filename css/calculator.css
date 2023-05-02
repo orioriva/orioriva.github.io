@@ -34,3 +34,7 @@ html, body{
 	border-radius: 0px !important;
 	border: 2px solid #cce2ec;
 }
+
+#config-area{
+	background-color: #fffacd;
+}

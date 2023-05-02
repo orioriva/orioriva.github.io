@@ -1,14 +1,30 @@
 'use strict'
 
+/** DataTables初期設定 */
+//setDataTablesStatus(2, 1);
+
 /** ページ遷移前の確認 */
 window.onbeforeunload = function(event){
     event.returnValue = 'ページを離れますか？\r\n保存していない内容は破棄されます！';
 };
 
-/** キャンバスサイズが変更されたら */
-$('#selectCanvasSize').change(function(){
-	changeCanvasSize($(this).val());
-});
+/** 設定用vueインスタンス */
+var vmConfig = Vue.createApp({
+	data(){
+		return{
+			canvasSize: '1',
+			strokeAnim: 'off',
+			resultTag: 'default',
+			resultTagName: 'RESULT'
+		}
+	},
+	methods: {
+		changeCanvasSize(){
+			changeCanvasSize(this.canvasSize)
+		}
+	}
+}).mount('#control-bar')
+
 function changeCanvasSize(value){
 	if(value == "1"){
 		$('#canvas-wrapper').css({'width': '100%', 'height': '100vh'});
